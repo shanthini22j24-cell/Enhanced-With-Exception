@@ -1,0 +1,102 @@
+import java.util.Scanner;
+
+class Multiply {
+    int multiply(int price, int qty) {
+        if (qty == 0)
+            return 0;
+        else
+            return price * qty;
+    }
+}
+
+class Add extends Multiply {
+    private String name;
+    private String mobile;
+
+    void setCustomer(String name, String mobile) throws Exception {
+        if (mobile.length() != 10 || !mobile.matches("\\d+")) {
+            throw new Exception("Invalid mobile number! It must have exactly 10 digits.");
+        }
+        this.name = name;
+        this.mobile = mobile;
+    }
+
+    @Override
+    int multiply(int price, int qty) {
+        return super.multiply(price, qty);
+    }
+
+    void add(int a, int b, int c, int d, int e) {
+        int total = a + b + c + d + e;
+        System.out.println("\nHey! " + name + " your final amount is " + total);
+    }
+
+    void checkQuantity(int qty) throws Exception {
+        if (qty > 10) {
+            throw new Exception("We are retailer, not wholesaler! Quantity should not exceed 10.");
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        Multiply obj = new Add();
+
+        System.out.print("Enter your name: ");
+        String cname = scan.nextLine();
+
+        System.out.print("Enter your mobile: ");
+        String cmobile = scan.nextLine();
+
+        Add obj1 = (Add) obj;
+
+        try {
+            obj1.setCustomer(cname, cmobile);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return; 
+        }
+
+        int dove = 45;
+        int lifebuay = 25;
+        int santoor = 40;
+        int pears = 35;
+        int power = 34;
+
+        System.out.println("\nThe price of dove =" + dove);
+        System.out.println("The price of lifebuay =" + lifebuay);
+        System.out.println("The price of santoor =" + santoor);
+        System.out.println("The price of pears =" + pears);
+        System.out.println("The price of power =" + power);
+
+        int quantot1 = getQuantity(scan, obj1, "dove");
+        int quantot2 = getQuantity(scan, obj1, "lifebuay");
+        int quantot3 = getQuantity(scan, obj1, "santoor");
+        int quantot4 = getQuantity(scan, obj1, "pears");
+        int quantot5 = getQuantity(scan, obj1, "power");
+
+        int tot1 = obj.multiply(dove, quantot1);
+        int tot2 = obj.multiply(lifebuay, quantot2);
+        int tot3 = obj.multiply(santoor, quantot3);
+        int tot4 = obj.multiply(pears, quantot4);
+        int tot5 = obj.multiply(power, quantot5);
+
+        obj1.add(tot1, tot2, tot3, tot4, tot5);
+    }
+
+    private static int getQuantity(Scanner scan, Add obj1, String itemName) {
+        int qty = 0;
+        while(true){
+            try{
+                System.out.print("Enter quantity of " + itemName + ":");
+                qty = scan.nextInt();
+                obj1.checkQuantity(qty);
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return qty;
+    }
+}
